@@ -1,0 +1,38 @@
+---
+import { format } from 'date-fns';
+const { posts } = Astro.props;
+
+// Group posts by year
+const postsByYear = posts.reduce((acc, post) => {
+  const year = new Date(post.frontmatter.date).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {});
+---
+
+<div class="space-y-8 animate-fade-in">
+  {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
+    <div>
+      <h2 class="text-xl font-semibold mb-4 dark:text-white">{year}</h2>
+      <ul class="space-y-4">
+        {yearPosts.map((post) => (
+          <li>
+            <a href={post.url} class="group">
+              <div class="flex justify-between items-center">
+                <span class="text-lg group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-white transition-colors">
+                  {post.frontmatter.title}
+                </span>
+                <span class="text-gray-500 dark:text-gray-400">
+                  {format(new Date(post.frontmatter.date), 'MMM d')}
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
