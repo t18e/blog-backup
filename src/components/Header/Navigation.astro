@@ -1,0 +1,17 @@
+---
+const links = [
+  { href: '/about', label: 'About' },
+  { href: 'https://twitter.com/teadejuyigbe', label: 'Follow me', external: true }
+];
+---
+<nav class="flex items-center space-x-8">
+  {links.map(({ href, label, external }) => (
+    <a 
+      href={href} 
+      class="text-sm hover:text-gray-600 dark:text-gray-300 dark:hover:text-white"
+      {...external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+    >
+      {label}
+    </a>
+  ))}
+</nav>
